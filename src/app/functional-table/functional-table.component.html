@@ -1,0 +1,28 @@
+<h1>Functional Table</h1>
+<div class="search-bar">
+    <input type="text" [(ngModel)]="searchValue" placeholder="Search..." (ngModelChange)="onSearchTermChange()">
+</div>
+<select [(ngModel)]="itemsPerPage">
+    <option value="5" selected>5</option>
+    <option value="10">10</option>
+    <option value="20">20</option>
+</select>
+<table class="users-table">
+    <thead>
+        <tr>
+            <th *ngFor="let column of columns" class="users-table-cell" (click)="sortTable(column)">
+                {{ capitalize(column) }}
+                <span *ngIf="isDescSorting(column)">▼</span>
+                <span *ngIf="isAscSorting(column)">▲</span>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let user of users | paginate: {itemsPerPage:itemsPerPage, currentPage: page};">
+            <td *ngFor="let column of columns" class="users-table-cell">
+                {{ user[column] }}
+            </td>
+        </tr>
+    </tbody>
+</table>
+<pagination-controls (pageChange) = "page = $event"></pagination-controls>
