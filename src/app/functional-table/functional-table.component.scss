@@ -5,11 +5,226 @@
 }
 
 .users-table-cell {
-    border: 1px solid #dddddd;
+    // border: 1px solid #dddddd;
     text-align: left;
-    padding: 8px;
+    // padding: 8px;
+    height: 70px;
+}
+
+tr th, td {
+    height: 50px;
+    border-bottom: 1px #e2e2e2 solid;
 }
 
 .search-bar {
     margin-bottom: 20px;
 }
+
+.table-flex {
+    display: flex;
+    flex-direction: column;
+}
+
+.table-header {
+    // display: flex;
+    // justify-content: space-between;
+    // align-items: center;
+    padding: 0 30px;
+    background-color: #415a79;
+    height: 65px;
+  }
+  
+  .table-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #f7f7f7;
+  }
+  
+  .table-settings {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 65px;
+  }
+
+  .table-filter {
+    display: flex;
+    justify-content: space-between;
+    flex: 0 1 33%;
+  }
+  
+  .page-size-dropdown {
+    margin: 0 6px;
+  }
+  
+  .filter-button {
+    background-color: transparent;
+    border: 1px solid #ccc;
+    cursor: pointer;
+
+    & > * {
+        display: flex;
+        align-items: center;
+
+        img {
+            width: 32px;
+        }
+    }
+  }
+  
+  .filter-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background-color: #f5f5f5;
+  }
+  
+  .search-input {
+    width: 250px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    // margin-right: 16px;
+  }
+  
+  .column-checkboxes {
+    display: flex;
+    align-items: center;
+  }
+  
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th,
+  td {
+    padding: 12px;
+    // border: 1px solid #ccc;
+  }
+  
+  th {
+    font-weight: bold;
+    white-space: nowrap;
+  }
+
+  tr {
+    border-bottom: 1px solid black;
+    border-top: 1px solid black;
+    border-collapse: collapse;
+}​
+  
+  tr:nth-child(even) {
+    background-color: #f4f4f4;
+  }
+
+  tbody tr:hover {
+    background-color: #ededed;
+  }
+
+  select {
+    border: 1px solid #ccc;
+    width: 65px;
+    padding: 8px;
+    /* needed */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    /* SVG background image */
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%3E%3Ctitle%3Edown-arrow%3C%2Ftitle%3E%3Cg%20fill%3D%22%23000000%22%3E%3Cpath%20d%3D%22M10.293%2C3.293%2C6%2C7.586%2C1.707%2C3.293A1%2C1%2C0%2C0%2C0%2C.293%2C4.707l5%2C5a1%2C1%2C0%2C0%2C0%2C1.414%2C0l5-5a1%2C1%2C0%2C1%2C0-1.414-1.414Z%22%20fill%3D%22%23000000%22%3E%3C%2Fpath%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+      background-size: .6em;
+      background-position: calc(100% - 1em) center;
+      background-repeat: no-repeat;
+  }
+
+  input[type="checkbox"]:checked, 
+input[type="checkbox"]:not(:checked)
+{
+    position: absolute;
+    left: -9999px;
+}
+
+  input[type="checkbox"]:checked + label, 
+  input[type="checkbox"]:not(:checked) + label {
+      display: inline-block;
+      position: relative;
+      padding-left: 28px;
+      line-height: 20px;
+      cursor: pointer;
+  }
+  
+  input[type="checkbox"]:checked + label:before, 
+  input[type="checkbox"]:not(:checked) + label:before {
+      content: "";
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      width: 18px;
+      height: 18px;
+      border: 1px solid #dddddd;
+      background-color: #ffffff;
+  }
+  
+  input[type="checkbox"]:checked + label:before {
+      border-radius: 2px;
+  }
+  
+  input[type="radio"]:checked + label:before {
+      border-radius: 100%;
+  }
+  
+  input[type="checkbox"]:checked + label:after, 
+  input[type="checkbox"]:not(:checked) + label:after {
+      content: "";
+      position: absolute;
+      -webkit-transition: all 0.2s ease;
+      -moz-transition: all 0.2s ease;
+      -o-transition: all 0.2s ease;
+      transition: all 0.2s ease;
+  }
+  
+  input[type="checkbox"]:checked + label:after {
+      left: 3px;
+      top: 4px;
+      width: 10px;
+      height: 5px;
+      border-radius: 1px;
+      border-left: 4px solid #415a79;
+      border-bottom: 4px solid #415a79;
+      -webkit-transform: rotate(-45deg);
+      -moz-transform: rotate(-45deg);
+      -o-transform: rotate(-45deg);
+      -ms-transform: rotate(-45deg);
+      transform: rotate(-45deg);
+  }
+  
+  input[type="checkbox"]:not(:checked) + label:after {
+      opacity: 0;
+  }
+  
+  input[type="checkbox"]:checked + label:after {
+      opacity: 1;
+  }
+
+  .my-pagination ::ng-deep .ngx-pagination {
+    display: flex;
+    justify-content: center;
+  }
+
+  .my-pagination ::ng-deep .ngx-pagination .current {
+    background: #415a79;
+  }
+
+  .spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+  }
+
+  @media (max-width: 600px) {
+    table {
+      word-break: break-all;
+    }
+  }

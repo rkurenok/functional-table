@@ -3,6 +3,7 @@ import { UserDto } from '../Models/user.dto';
 import { UsersService } from '../Services/users.service';
 import { SortingInterface } from '../Helpers/sort.interface';
 import { of, switchMap } from 'rxjs';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 
 @Component({
@@ -21,10 +22,13 @@ export class FunctionalTableComponent implements OnInit {
   searchValue: string = '';
   itemsPerPage: number = 5;
   page: number = 1;
+  showFilter: boolean = false;
+  columnsToShow: boolean[] = new Array(this.columns.length).fill(true);
 
-  constructor(private usersService: UsersService) {}
+  constructor(private usersService: UsersService, private spinner: NgxSpinnerService) { }
 
-  onSearchTermChange() {  
+  onSearchTermChange() {
+    this.spinner.show();
     this.usersService.getUsers().pipe(
       switchMap((users) => {
         this.users = users;
@@ -33,6 +37,7 @@ export class FunctionalTableComponent implements OnInit {
     ).subscribe((filteredUsers) => {
       this.users = filteredUsers;
       this.page = 1;
+      this.spinner.hide();
     });
   }
 
@@ -45,8 +50,10 @@ export class FunctionalTableComponent implements OnInit {
   }
 
   fetchData(): void {
+    this.spinner.show();
     this.usersService.getUsers().subscribe((users) => {
       this.users = users;
+      this.spinner.hide();
     });
   }
 
@@ -71,13 +78,34 @@ export class FunctionalTableComponent implements OnInit {
 
     this.users = this.users.sort((a, b) => {
       const valueA = this.sorting.column ? a[this.sorting.column] : 0;
-          const valueB = this.sorting.column ? b[this.sorting.column] : 0;
+      const valueB = this.sorting.column ? b[this.sorting.column] : 0;
 
-          if (this.sorting.order === 'asc') {
-              return valueA > valueB ? 1 : -1;
-          } else {
-              return valueA < valueB ? 1 : -1;
-          }
+      if (this.sorting.order === 'asc') {
+        return valueA > valueB ? 1 : -1;
+      } else {
+        return valueA < valueB ? 1 : -1;
+      }
     });
+  }
+
+  toggleFilter() {
+    this.showFilter = !this.showFilter;
+  }
+
+  toggleColumn(column: number) {
+    this.columnsToShow[column] = !this.columnsToShow[column];
+  }
+
+  formatName(value: any): string {
+    let result = '';
+
+    if (value instanceof Array)
+      result = value.join(', ');
+    else if (typeof value === 'object')
+      result = value?.first + " " + value?.last
+    else
+      result = value
+
+    return result;
   }
 }

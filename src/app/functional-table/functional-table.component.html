@@ -1,28 +1,63 @@
-<h1>Functional Table</h1>
-<div class="search-bar">
-    <input type="text" [(ngModel)]="searchValue" placeholder="Search..." (ngModelChange)="onSearchTermChange()">
+<div class="table-flex">
+    <div class="table-header">
+        <h2 class="table-title">Functional Table</h2>
+    </div>
+    <div class="table-settings">
+        <div class="table-itemPerPage">
+            Show
+            <select class="page-size-dropdown" [(ngModel)]="itemsPerPage">
+                <option value="5" selected>5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+            </select>
+            entries
+        </div>
+        <div class="table-filter">
+            <button class="filter-button" (click)="toggleFilter()">
+                <div><img src="assets/icon-filters.png" alt="My Image">Columns</div>
+            </button>
+            <input type="text" [(ngModel)]="searchValue" placeholder="Search..." (ngModelChange)="onSearchTermChange()"
+                class="search-input" />
+        </div>
+    </div>
+    <div class="filter-bar" *ngIf="showFilter">
+        <div class="column-checkboxes" *ngFor="let column of columns; let i = index">
+            <input type="checkbox" name="{{column}}" (change)="toggleColumn(i)" (click)="toggleColumn(i)" class="checkbox-input" id="checkbox" [(ngModel)]="columnsToShow[i]"/>
+            <label for="{{column}}" (change)="toggleColumn(i)" (click)="toggleColumn(i)">{{ capitalize(column) }}</label>
+        </div>
+    </div>
 </div>
-<select [(ngModel)]="itemsPerPage">
-    <option value="5" selected>5</option>
-    <option value="10">10</option>
-    <option value="20">20</option>
-</select>
-<table class="users-table">
+<table class="data-table">
     <thead>
         <tr>
-            <th *ngFor="let column of columns" class="users-table-cell" (click)="sortTable(column)">
-                {{ capitalize(column) }}
-                <span *ngIf="isDescSorting(column)">▼</span>
-                <span *ngIf="isAscSorting(column)">▲</span>
-            </th>
+            <ng-container *ngFor="let column of columns; let i = index">
+                <th *ngIf="columnsToShow[i]" class="users-table-cell" (click)="sortTable(column)">
+                        {{ capitalize(column) }}
+                        <span *ngIf="isDescSorting(column)">▼</span>
+                        <span *ngIf="isAscSorting(column)">▲</span>
+                </th>
+            </ng-container>
         </tr>
     </thead>
     <tbody>
         <tr *ngFor="let user of users | paginate: {itemsPerPage:itemsPerPage, currentPage: page};">
-            <td *ngFor="let column of columns" class="users-table-cell">
-                {{ user[column] }}
-            </td>
+            <ng-container *ngFor="let column of columns; let i = index">
+                <td *ngIf="columnsToShow[i]" class="users-table-cell">
+                    <div *ngIf="column == 'picture'; else elseBlock">
+                        <img *ngIf="user[column]" [src]="user[column]" alt="{{ formatName(user[column]) }}">
+                    </div>
+                    <ng-template #elseBlock>
+                        {{ formatName(user[column]) }}
+                    </ng-template>
+                </td>
+            </ng-container>
         </tr>
     </tbody>
 </table>
-<pagination-controls (pageChange) = "page = $event"></pagination-controls>
+<pagination-controls (pageChange)="page = $event" class="my-pagination"></pagination-controls>
+<ngx-spinner class="spinner"
+  bdColor="rgba(247,247,247, 0.4)"
+  template="<img style='background:!important;' src='assets/ajax-loading-c13.gif' />"
+>
+<p style="font-size: 20px; color: #415a79">Loading...</p>
+</ngx-spinner>
